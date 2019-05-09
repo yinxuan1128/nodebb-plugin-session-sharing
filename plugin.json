@@ -1,6 +1,6 @@
 {
-	"id": "nodebb-plugin-session-sharing",
-	"url": "https://github.com/NodeBB/nodebb-plugin-session-sharing",
+	"id": "nodebb-plugin-session-sharing-4-jjwt",
+	"url": "https://github.com/yinxuan1128/nodebb-plugin-session-sharing-4-jjwt",
 	"library": "./library.js",
 	"hooks": [
 		{ "hook": "filter:router.page", "method": "addMiddleware" },
