@@ -144,8 +144,9 @@ plugin.getUser = function (remoteId, callback) {
 };
 
 plugin.process = function (token, callback) {
+	var secret = Buffer.from(token, 'base64');
 	async.waterfall([
-		async.apply(jwt.verify, Buffer.From(token,'base64'), plugin.settings.secret),
+		async.apply(jwt.verify, secret, plugin.settings.secret),
 		async.apply(plugin.normalizePayload),
 		async.apply(plugin.findOrCreateUser),
 		async.apply(plugin.updateUserProfile),
