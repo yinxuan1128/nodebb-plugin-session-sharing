@@ -230,15 +230,18 @@ plugin.findOrCreateUser = function (userData, callback) {
 	}
 	queries.uid = async.apply(db.sortedSetScore, plugin.settings.name + ':uid', userData.id);
 
+	console.log(queries);
 	async.parallel(queries, function (err, checks) {
 		if (err) { return callback(err); }
 
 		async.waterfall([
 			/* check if found something to work with */
 			function (next) {
+				console.log(checks);
 				if (checks.uid && !isNaN(parseInt(checks.uid, 10))) {
 					var uid = parseInt(checks.uid, 10);
 					/* check if the user with the given id actually exists */
+					console.log(uid);
 					return user.exists(uid, function (err, exists) {
 						/* ignore errors, but assume the user doesn't exist  */
 						if (err) {
@@ -246,6 +249,7 @@ plugin.findOrCreateUser = function (userData, callback) {
 							return next(null, null);
 						}
 						if (exists) {
+							console.log('exists Users');
 							return next(null, uid);
 						}
 						/* reference is outdated, user got deleted */
@@ -394,7 +398,7 @@ function executeJoinLeave(uid, join, leave, callback) {
 
 plugin.createUser = function (userData, callback) {
 	winston.verbose('[session-sharing] No user found, creating a new user for this login');
-
+	console.log('create new user' + userData);
 	user.create(_.pick(userData, profileFields), function (err, uid) {
 		if (err) { return callback(err); }
 
